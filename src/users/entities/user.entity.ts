@@ -4,6 +4,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { UserRole } from '../user-role.enum';
 
 @Entity()
 export class user {
@@ -12,10 +13,15 @@ export class user {
 
   @Column()
   name: string;
+
   @Column({ unique: true, nullable: false })
   email: string;
+
   @Column({ nullable: false })
   password: string;
+
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
+  role: UserRole;
 
   @DeleteDateColumn()
   deletedAt: Date;

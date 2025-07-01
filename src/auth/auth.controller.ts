@@ -10,8 +10,7 @@ import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { AuthGuard } from './guard/auth.guard';
-import { user } from '../users/entities/user.entity';
-
+import { AuthRequest } from './types/auth-request.interface';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -26,16 +25,14 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
-    console.log('Credenciales recibidas:', loginDto); // 🔍 Este log
+    console.log('Credenciales recibidas:', loginDto);
     return this.authService.login(loginDto);
   }
 
   @Get('profile')
   @UseGuards(AuthGuard)
-  profile(
-    @Request()
-    req,
-  ) {
-    return req.user;
+  profile(@Request() req: AuthRequest) {
+    const { id, email, role } = req.user;
+    return { id, email, role };
   }
 }
