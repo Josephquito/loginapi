@@ -1,5 +1,11 @@
 import { Transform } from 'class-transformer';
-import { IsEmail, IsString, MinLength, IsEnum } from 'class-validator';
+import {
+  IsEmail,
+  IsString,
+  MinLength,
+  IsEnum,
+  IsOptional,
+} from 'class-validator';
 import { UserRole } from '../../users/user-role.enum'; // ajusta la ruta si es diferente
 
 export class RegisterDto {
@@ -15,5 +21,6 @@ export class RegisterDto {
   password: string;
 
   @IsEnum(UserRole)
-  role?: UserRole = UserRole.USER;
+  @IsOptional()
+  role?: UserRole;
 }
